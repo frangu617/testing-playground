@@ -32,20 +32,27 @@ test("checkbox working", () => {
   expect(colorBtn).toBeEnabled()
 })
 
-test("check if button is disabled when checkbox is checked", () => {
-  render(<App />)
+//this is from chatGPT, and here is the explanation:
+// We render the App component.
+// We find the checkbox by its role and simulate a user click to toggle the button's disabled state.
+// We then assert whether the correct text appears in the paragraph element based on the button's state
+describe("Paragraph text changes based on button state", () => {
+  test("displays 'Button is Disabled' when the button is disabled", () => {
+    render(<App />); //render app
+    const checkbox = screen.getByRole('checkbox');//find checkbox
+    userEvent.click(checkbox); // Disable the button simulating user click
 
-  const checkbox = screen.getByRole('checkbox')
-  const isBtnEnabled = screen.getByRole('button')
-  const isBtnEnabledTxt = screen.getByText('paragraph')
+    const paragraphText = screen.getByText('Button is Disabled'); //variable with string that says 'Button is Disabled'
+    expect(paragraphText).toBeInTheDocument(); //find the string from the variable
+  });
 
-  userEvent.click(checkbox)
-  expect(isBtnEnabled).toBeDisabled()
-  expect(isBtnEnabledTxt).toBeInTheDocument('Button is Disabled')
+  test("displays 'Button is Enabled' when the button is enabled", () => {
+    render(<App />);
+    const checkbox = screen.getByRole('checkbox');
+    userEvent.click(checkbox); // Disable the button
+    userEvent.click(checkbox); // Enable the button again
 
-  userEvent.click(checkbox)
-  expect(isBtnEnabled).toBeEnabled()
-  expect(isBtnEnabledTxt).toBeInTheDocument('Button is Enabled')
-}
-)
-
+    const paragraphText = screen.getByText('Button is Enabled');
+    expect(paragraphText).toBeInTheDocument();
+  });
+});

@@ -9,6 +9,13 @@ function App() {
   const newInputValue =inputValue === 'Enabled' ? 'Disabled' : 'Enabled'
 
 
+  //added this per chatGPT suggestion
+  const handleCheckboxChange = (event) => {
+    const isDisabled = event.target.checked;
+    setInputDisabled(isDisabled);
+    setInputValue(isDisabled ? 'Disabled' : 'Enabled');
+  }
+
   return (
     <div className="App">
       <h1>Testing Playground</h1>
@@ -22,8 +29,8 @@ function App() {
         </button>
         <input
         type="checkbox"
-        defaultChecked={inputDisabled} {inputValue}
-        onChange = {(event) => setInputDisabled(event.target.checked)}
+        defaultChecked={inputDisabled}
+        onChange = {handleCheckboxChange}    //this is where the change happens    
         />
     </div>
   );
